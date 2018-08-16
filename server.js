@@ -7,14 +7,16 @@ import './utils/dotenv';
 import Logger from './utils/logger';
 import index from './routes/index';
 import user from './routes/user';
+import media from './routes/media';
 import defaultErrorHandler from './middlewares/defaultErrorHandler';
+import authenticate from './middlewares/authenticate';
 
 const logger = Logger('server.js');
 
 const app = express();
 const MongoStore = mongo(session);
 mongoose.Promise = global.Promise; // How this libary works
-mongoose.connect(process.env.MONGODB_URI, {useNewUrlParser: true} ); // Connection to database
+mongoose.connect( process.env.MONGODB_URI, {useNewUrlParser: true} ); // Connection to database
 mongoose.connection.on('error', () => {
   logger.log('error', 'Mongodb connection error. Please make sure MongoDB is running!');
   process.exit(); // Ends all process in case of error
@@ -36,11 +38,12 @@ app.use(
   }),
 );
 
+// end points definition
 app.use(`/api/v${process.env.API_VERSION}`, index); // '/api/v1' required in main js file, do not use simple '', use ``
 app.use(`/api/v${process.env.API_VERSION}`, user); // parvirza lietotaju uz registracijas formu
+app.use(`/api/v${process.env.API_VERSION}`, media);
 
-
-app.use(defaultErrorHandler);
+app.use(defaultErrorHandler); // used for all routes
 const host = process.env.HOST_ADDRESS; // takes variables from .env file to globall process
 const port = process.env.HOST_PORT;
 

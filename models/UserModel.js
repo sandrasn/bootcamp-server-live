@@ -22,6 +22,9 @@ const save = async model => new UserModel(model).save(); // model is async funct
 const getUserByName = async username => UserModel.findOne({ username });
 const getUserByEmail = async email => UserModel.findOne({ email });
 
+const comparePasswords = async ({ userPassword, reHashedPassword }) =>
+  bcrypt.compare(userPassword, reHashedPassword);
+
 UserModel.schema
   .path('username')
   .validate(async username => !(await getUserByName(username)), 'Username already exists!');
@@ -29,4 +32,4 @@ UserModel.schema
   .path('email')
   .validate(async email => !(await getUserByEmail(email)), 'Email already taken!');
 
-export{ save, getUserByName, getUserByEmail };
+export { save, getUserByName, getUserByEmail, comparePasswords };
