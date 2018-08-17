@@ -27,7 +27,7 @@ const authenticate = async (req, res, next) => {
       if (user) {
         logger.log('debug', `User ${username} was authenticated`);
         req.user = user;
-        next();
+        return next();
       }
     }
     return next(new AppError('Token is invalid!', 401));

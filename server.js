@@ -43,6 +43,7 @@ app.use(`/api/v${process.env.API_VERSION}`, index); // '/api/v1' required in mai
 app.use(`/api/v${process.env.API_VERSION}`, user); // parvirza lietotaju uz registracijas formu
 app.use(`/api/v${process.env.API_VERSION}`, media);
 
+app.use(`/api/v${process.env.API_VERSION}/uploads`, express.static('uploads')); // To acces files in straight way, copying uerl in browser.
 app.use(defaultErrorHandler); // used for all routes
 const host = process.env.HOST_ADDRESS; // takes variables from .env file to globall process
 const port = process.env.HOST_PORT;
