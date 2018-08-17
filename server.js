@@ -48,6 +48,6 @@ app.use(defaultErrorHandler); // used for all routes
 const host = process.env.HOST_ADDRESS; // takes variables from .env file to globall process
 const port = process.env.HOST_PORT;
 
-app.listen(port, host, () => {
+app.listen(process.env.PORT || port, () => {
   console.log('ABC');
 });
